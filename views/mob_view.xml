@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Magento configuration -->
+        <record id="walmart_configure_form" model="ir.ui.view">
+            <field name="name">walmart.configure.form</field>
+            <field name="model">walmart.configure</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Walmart Connection">
+                    <header>
+                        <button name="test_connection"
+                                type='object'
+                                icon="gtk-network"
+                                class="oe_highlight"
+                                string='Test Connection'/>
+                    </header>
+                    <sheet>
+                        <h3>
+                            <field name="status"/>
+                        </h3>
+                        <label for="active"/>
+                        <h3>
+                            <field name="active"/>
+                        </h3>
+                        <div class="oe_horizontal_separator oe_clear ">
+                            Walmart API Settings
+                        </div>
+                        <group>
+                            <label for="name"/>
+                            <h3>
+                                <field name="name" colspan="4" placeholder="Example: http://walmart.com"/>
+                            </h3>
+                            <field name="credential"/>
+                        </group>
+                        <notebook>
+                            <page string="Credentials" attrs="{'invisible': [('credential','!=', True)]}">
+                                <group>
+                                    <group>
+                                        <label for="user"/>
+                                        <h3>
+                                            <field name="user" placeholder="Example: api wm_consumer.id"/>
+                                        </h3>
+                                    </group>
+                                    <group>
+                                        <label for="pwd"/>
+                                        <h3>
+                                            <field name="pwd" placeholder="Example: api wm_consumer.channel,type"/>
+                                        </h3>
+                                    </group>
+                                </group>
+                                
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="walmart_configure_tree" model="ir.ui.view">
+            <field name="name">walmart.configure.tree</field>
+            <field name="model">walmart.configure</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Walmart Connection">
+                    <field name="name"/>
+                    <field name="user"/>
+                    <field name="active"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="walmart_configure_tree_action" model="ir.actions.act_window">
+            <field name="name">Walmart Connection</field>
+            <field name="res_model">walmart.configure</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new walmart connection.
+                </p>
+                <p>
+                    At first create a Web Services(Xml-rpc user/roles) on walmart.
+                    And then Define those credentials for walmart connection.
+                </p>
+            </field>
+            <field name="view_id" ref="walmart_configure_tree"/>
+        </record>
+
+        <!-- Magento synchronization -->
+        <record id="walmart_synchronization_form" model="ir.ui.view">
+            <field name="name">walmart.synchronization.form</field>
+            <field name="model">walmart.synchronization</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Walmart Synchronization">
+                    <header>
+                        <separator colspan="5" string="Walmart Synchronization"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <p>
+<!--
+                                <h3>
+                                    <label string="Click here to configure your Magento Api."/>
+                                </h3>
+                                <button type="object"
+                                        name="open_configuration"
+                                        string="Configure Your Magento"
+                                        icon="gtk-execute"
+                                        class="oe_inline oe_link"/>
+-->
+                                <label string="Before starting synchronization process, it's highly recommended to configure your walmart api."/>
+                            </p>
+                        </div>
+                        <br/>
+                        <div>
+                            <group>
+                                <label for="sync_clear" string="Clear the classifications, items, and value records mapping."/>
+                                <div>
+                                    <button icon="fa-play"
+                                            class="oe_highlight"
+                                            name="syn_clear"
+                                            string="Clear Mapping"
+                                            type="object"/>
+                                </div>
+                            </group>
+                        </div>
+                        <br/>
+                        <div>
+                            <group>
+                                <group>
+                                    <label for="configuration" string="Walmart configure"/>
+                                    <field name="configuration" class="oe_left" nolabel="1" required="1"/>
+                                </group>
+                                <group></group>
+                            </group>
+                        </div>
+                        <br/>
+                        
+                        <div>
+                            <group name="d">
+                                <label for="id" string="Sync Inventory"/>
+                                <div>
+                                    <button icon="fa-play"
+                                            class="oe_highlight"
+                                            name="syn_inventory"
+                                            string="Sync Product Inventory"
+                                            type="object"/>
+                                            
+                                     <button icon="fa-play"
+                                            class="oe_highlight"
+                                            name="update_inventory"
+                                            string="Update Inventory"
+                                            type="object"/>       
+                                </div>
+                            </group>
+                        </div>
+                        <br/>
+                        
+                        <div>
+                            <group name="d">
+                                <label for="id" string="Sync Product"/>
+                                <div>
+                                    <button icon="fa-play"
+                                            class="oe_highlight"
+                                            name="syn_product"
+                                            string="Sync Product"
+                                            type="object"/>
+                                </div>
+                            </group>
+                        </div>
+                        <br/>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="walmart_synchronization_tree" model="ir.ui.view">
+            <field name="name">walmart.synchronization.tree</field>
+            <field name="model">walmart.synchronization</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Synchronization">
+                    <field name="configuration"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="walmart_synchronization_action" model="ir.actions.act_window">
+            <field name="name">Synchronization</field>
+            <field name="res_model">walmart.synchronization</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="walmart_synchronization_tree"/>
+        </record>
+
+       
+
+        <!-- Menu -->
+        <menuitem id="walmart_parent_menu" name="Walmart" groups="group_walmart_odoo" />
+        <menuitem id="menu_walmart_id2" name="Walmart Synchronization" parent="walmart_parent_menu" sequence="1"/>
+        <menuitem id="mag_id0" name="Synchronization" parent="menu_walmart_id2"
+                  action="walmart_synchronization_action"/>
+        <!--<menuitem id="menu_mapping_id" name="Mapping" parent="magento_parent_menu" sequence="2"/>
+        <menuitem id="mapping_id1" name="Region Mapping" parent="menu_mapping_id" action="magento_region_tree_action"
+                  sequence="10"/>
+        <menuitem id="mapping_id7" name="Customer Mapping" parent="menu_mapping_id"
+                  action="magento_customer_tree_action" sequence="11"/>
+        <menuitem id="mapping_id8" name="Sales Order Mapping" parent="menu_mapping_id"
+                  action="magento_order_tree_action" sequence="12"/>
+        <menuitem id="id_synchro" name="History" parent="magento_parent_menu" sequence="3"/>
+        <menuitem id="sync_history" name="Synchronisation History" parent="id_synchro"
+                  action="magento_sync_history_action"/> -->
+        <menuitem id="menu_walmart_id1" name="Configuration" parent="walmart_parent_menu" sequence="4"/>
+        <menuitem id="mag_id1" name="Walmart Connection" parent="menu_walmart_id1"
+                  action="walmart_configure_tree_action" sequence="1"/>
+        
+
+    </data>
+</odoo>
